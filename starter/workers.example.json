@@ -1,0 +1,51 @@
+{
+  "company": "החברה שלי",
+  "ownerName": "דני",
+  "ownerGender": "male",
+  "owner": [
+    "972500000000"
+  ],
+  "ownerPhone": "972500000000",
+  "names": {},
+  "group": "",
+  "groupInvite": "",
+  "port": 3100,
+  "pairPort": 3101,
+  "countryCode": "972",
+  "timezone": "Asia/Jerusalem",
+  "workspaceDir": "..",
+  "workersDir": "../workers",
+  "mediaDir": "../media",
+  "allowedDirs": [],
+  "preApprovedCommands": [],
+  "whisper": {
+    "exe": "",
+    "model": "",
+    "ffmpeg": "",
+    "lang": "he"
+  },
+  "workers": {
+    "noa": {
+      "phone": "972500000001",
+      "name": "נועה קמפיינים",
+      "about": "קמפיינים | החברה שלי",
+      "photo": "assets/noa.png",
+      "brain": true,
+      "joinGroup": false,
+      "aliases": ["נועה", "נואה", "נוע"],
+      "allowedDirs": []
+    },
+    "ron": {
+      "phone": "972500000002",
+      "name": "רון סושיאל",
+      "about": "סושיאל וקריאייטיב | החברה שלי",
+      "photo": "assets/ron.png",
+      "brain": true,
+      "joinGroup": false,
+      "permissions": "bypass",
+      "workspaceDir": "..",
+      "aliases": ["רון", "רוני"],
+      "pending": true
+    }
+  }
+}

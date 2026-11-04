@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>עובדי AI בווצאפ | איתי בינדר</title>
+<meta name="description" content="הדרכה מלאה: איך בונים עובד AI עם תפקיד, מחברים אותו לווצאפ, קובעים למי הוא עונה ולאיזה מידע הוא חשוף.">
+<meta property="og:title" content="עובדי AI בווצאפ | איתי בינדר">
+<meta property="og:description" content="מהגדרת תפקיד ועד עובד שרץ 24/7 ועונה רק לך. שלב אחרי שלב, עם קוד פתוח.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2325D366'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Arial' font-weight='700' text-anchor='middle' fill='%23051a0e'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <nav class="rail" id="rail" aria-label="ניווט שקפים"></nav>
+  <div class="pager" id="pager"><b>01</b> / 18</div>
+  <div class="hint" id="hint">גללו למטה ↓</div>
+
+  <!-- 01 שער -->
+  <section class="slide cover" data-label="שער">
+    <div class="cover-grid" aria-hidden="true"></div>
+    <div class="slide-inner">
+      <div class="brand rise">BINDER<span>.</span></div>
+      <h1 class="rise">לבנות <span class="grad">עובדי AI</span><br>שעובדים בשבילכם<br>בווצאפ</h1>
+      <p class="lead rise">מהגדרת תפקיד ועד עובד שרץ מסביב לשעון, עונה רק לכם, ורואה רק את מה שהחלטתם.</p>
+      <div class="cover-chips rise">
+        <span>תפקיד</span><span>סקילים</span><span>ווצאפ</span><span>הרשאות</span><span>תמלול</span><span>סנכרון</span>
+      </div>
+    </div>
+    <div class="cover-phone rise" aria-hidden="true">
+      <div class="cp-head"><i></i><div><b>נועה</b><small>מנהלת קמפיינים · מקליד/ה...</small></div></div>
+      <div class="cp-body">
+        <div class="bub in">בוקר טוב. דוח אתמול מוכן.</div>
+        <div class="bub in">הוצאה 1,240 ש"ח, 38 לידים, עלות לליד 32.6 ש"ח.</div>
+        <div class="bub in">מודעה 3 נשחקה. להחליף קריאייטיב?</div>
+        <div class="bub out">כן, תכיני 2 גרסאות</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 מה זה עובד -->
+  <section class="slide" data-label="מה זה עובד">
+    <div class="slide-inner">
+      <div class="eyebrow rise">01 · הרעיון</div>
+      <h2 class="rise">עובד AI הוא לא צ'אט.<br><span class="grad">הוא תפקיד עם לוח זמנים.</span></h2>
+      <div class="equation">
+        <div class="eq-card rise"><em>01</em><b>תפקיד</b><span>על מה הוא אחראי ומה אסור לו</span></div>
+        <div class="eq-op rise">+</div>
+        <div class="eq-card rise"><em>02</em><b>סקילים</b><span>מה הוא יודע לעשות</span></div>
+        <div class="eq-op rise">+</div>
+        <div class="eq-card rise"><em>03</em><b>תזמון</b><span>מתי הוא עושה את זה לבד</span></div>
+        <div class="eq-op rise">+</div>
+        <div class="eq-card rise"><em>04</em><b>ערוץ</b><span>איפה הוא מדבר איתכם</span></div>
+        <div class="eq-op rise">=</div>
+        <div class="eq-card eq-result rise"><b>עובד</b><span>שעובד גם כשאתם לא מול המחשב</span></div>
+      </div>
+      <p class="note rise">אם הכל תלוי בכם, זו לא מערכת. המטרה היא שהעובד יזיז דברים בלי שתצטרכו לזכור לבקש.</p>
+    </div>
+  </section>
+
+  <!-- 03 הגדרת תפקיד -->
+  <section class="slide" data-label="הגדרת תפקיד">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">02 · הגדרת תפקיד</div>
+        <h2 class="rise">שלוש שכבות.<br>מהקבוע אל הגמיש.</h2>
+        <p class="lead rise">מתחילים במה שהעובד <b>אחראי</b> עליו, ממשיכים למה שהוא עושה <b>לבד</b> בזמנים קבועים, ומסיימים במה שהוא <b>יודע לעשות</b> כשמבקשים ממנו.</p>
+      </div>
+      <div class="layers">
+        <div class="layer rise" style="--d:0">
+          <div class="layer-tag">שכבה 1</div>
+          <b>הגדרת תפקיד</b>
+          <p>"נועה, מנהלת קמפיינים. אחראית על חשבונות המודעות של העסק. מדווחת על כל חריגה בעלות לליד."</p>
+          <code>ROLE.md</code>
+        </div>
+        <div class="layer rise" style="--d:1">
+          <div class="layer-tag">שכבה 2</div>
+          <b>משימות קבועות</b>
+          <p>סקילים שהיא אחראית עליהם ורצים בתזמון: דוח בוקר ב-08:00, בדיקת תקציב כל שעה.</p>
+          <code>/campaign-report · 08:00</code>
+        </div>
+        <div class="layer rise" style="--d:2">
+          <div class="layer-tag">שכבה 3</div>
+          <b>יכולות לפי בקשה</b>
+          <p>סקילים ופעולות שהיא יודעת לבצע כשמבקשים: להעלות מודעה, לנתח קריאייטיב, לבנות קהל.</p>
+          <code>/upload-ad · /ad-diagnostics</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 איפה רצים -->
+  <section class="slide" data-label="איפה הוא רץ">
+    <div class="slide-inner">
+      <div class="eyebrow rise">03 · איפה העובד רץ</div>
+      <h2 class="rise">שלוש אפשרויות. רק אחת מהן היא עובד אמיתי.</h2>
+      <div class="tabs rise" role="tablist">
+        <button class="tab" data-run="session" role="tab">סשן</button>
+        <button class="tab on" data-run="terminal" role="tab">טרמינל <small>מומלץ</small></button>
+        <button class="tab" data-run="cloud" role="tab">ענן</button>
+      </div>
+      <div class="run-panel rise" id="runPanel">
+        <div class="run-art" id="runArt"></div>
+        <div class="run-text">
+          <h3 id="runTitle"></h3>
+          <p id="runDesc"></p>
+          <ul class="pros" id="runPros"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 למה טרמינל -->
+  <section class="slide" data-label="למה טרמינל">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">04 · למה אני מעדיף טרמינל</div>
+        <h2 class="rise">העובד רואה <span class="grad">את כל העסק</span>,<br>לא רק את מה שבגיטהאב.</h2>
+        <p class="lead rise">עובד בענן מכיר רק ריפו אחד. עובד שרץ אצלכם במחשב פותח את כל התיקיות, הזיכרון, החיבורים והסקילים שכבר בניתם. זה ההבדל בין פרילנסר לבין עובד שיושב במשרד.</p>
+        <p class="note rise">בענן הוא רואה רק מה שעבר push: לא שינויים שעוד לא דחפתם, ולא תיקיות שבכלל לא בגיט. היתרון היחיד של הענן: הוא רץ גם כשהמחשב כבוי.</p>
+        <div class="toggle rise">
+          <button class="tg on" data-view="local">מחשב מקומי</button>
+          <button class="tg" data-view="cloud">ענן</button>
+        </div>
+      </div>
+      <div class="tree rise" id="whyTree">
+        <div class="t-row root" data-cloud="0"><i class="ic-folder"></i>העסק שלי</div>
+        <div class="t-row l1" data-cloud="1"><i class="ic-folder"></i>אתר העסק <span class="gh">GitHub</span></div>
+        <div class="t-row l1" data-cloud="0"><i class="ic-folder"></i>לקוח א</div>
+        <div class="t-row l2" data-cloud="0"><i class="ic-file"></i>הצעת מחיר.pdf</div>
+        <div class="t-row l1" data-cloud="0"><i class="ic-folder"></i>לקוח ב</div>
+        <div class="t-row l1" data-cloud="0"><i class="ic-folder"></i>כספים</div>
+        <div class="t-row l1" data-cloud="0"><i class="ic-plug"></i>חיבורים: Meta, CRM, Make</div>
+        <div class="t-row l1" data-cloud="0"><i class="ic-brain"></i>זיכרון + סקילים</div>
+        <div class="tree-caption" id="treeCaption">8 מתוך 8 פריטים נגישים</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 עובד בסשן שמדווח -->
+  <section class="slide" data-label="עובד בסשן">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">05 · השלב הראשון</div>
+        <h2 class="rise">קודם עובד שמדווח בסשן.<br>רק אחר כך ווצאפ.</h2>
+        <p class="lead rise">לפני שמחברים ערוץ, מוודאים שהעובד עושה את העבודה. נותנים לו תפקיד וסקיל, מריצים, ובודקים שהדוח שהוא מוציא נכון ושימושי.</p>
+        <p class="note rise">עובד שלא יודע לדווח טוב בסשן, לא ידווח טוב גם בווצאפ. הערוץ לא מתקן תוכן.</p>
+      </div>
+      <div class="term rise">
+        <div class="term-bar"><i></i><i></i><i></i><span>claude</span></div>
+        <div class="term-body" id="term1">
+          <div class="tl"><span class="pr">&gt;</span> /campaign-report</div>
+          <div class="tl dim">קורא נתונים מחשבון המודעות...</div>
+          <div class="tl dim">משווה ללידים ב-CRM...</div>
+          <div class="tl ok">✓ דוח מוכן</div>
+          <div class="tl">הוצאה אתמול: 1,240 ש"ח</div>
+          <div class="tl">לידים: 38 · עלות לליד: 32.6 ש"ח</div>
+          <div class="tl warn">! מודעה 3: CTR ירד ב-41% בשלושה ימים</div>
+          <div class="tl">המלצה: להחליף קריאייטיב, לא להעלות תקציב</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 Baileys -->
+  <section class="slide" data-label="Baileys">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">06 · החיבור לווצאפ</div>
+        <h2 class="rise">Baileys:<br><span class="grad">ווצאפ רגיל, בקוד פתוח.</span></h2>
+        <p class="lead rise">ספרייה שמתחברת לווצאפ בדיוק כמו ווצאפ ווב, דרך "מכשירים מקושרים". בלי אישור מ-Meta, בלי תבניות, בלי תשלום להודעה.</p>
+      </div>
+      <div class="verdict rise">
+        <div class="v-row ok"><b>✓</b><div><strong>התכתבות יומיומית</strong><span>עובד שמדבר איתכם, עם הצוות, בקבוצה פנימית</span></div></div>
+        <div class="v-row ok"><b>✓</b><div><strong>הודעות בודדות לפי בקשה</strong><span>"תשלח ליוסי שהפגישה זזה ל-14:00"</span></div></div>
+        <div class="v-row bad"><b>✕</b><div><strong>דיוורים ושליחה המונית</strong><span>זה לא ה-API הרשמי. שליחה המונית = סיכון אמיתי לחסימת המספר</span></div></div>
+        <div class="v-foot">לדיוורים יש WhatsApp Business API רשמי. לעובד פנימי, Baileys מספיק ויותר.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 המספר -->
+  <section class="slide" data-label="המספר">
+    <div class="slide-inner">
+      <div class="eyebrow rise">07 · מספר לעובד</div>
+      <h2 class="rise">לכל עובד מספר משלו. <span class="grad">10 ש"ח.</span></h2>
+      <div class="steps" id="simSteps">
+        <div class="step rise" style="--d:0"><div class="st-num">1</div><div class="st-ic">
+          <svg viewBox="0 0 48 48"><rect x="12" y="4" width="24" height="40" rx="5" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M19 14h10v8H19z" fill="currentColor" opacity=".5"/></svg></div>
+          <b>קונים eSIM ב-019</b><span>מספר ישראלי בכ-10 ש"ח. אין צורך בחבילת גלישה.</span></div>
+        <div class="st-line"></div>
+        <div class="step rise" style="--d:1"><div class="st-num">2</div><div class="st-ic">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M16 24l6 6 11-12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+          <b>מפעילים בטלפון</b><span>רק כדי לקבל SMS אימות. אחרי זה הסים כבר לא חשוב.</span></div>
+        <div class="st-line"></div>
+        <div class="step rise" style="--d:2"><div class="st-num">3</div><div class="st-ic">
+          <svg viewBox="0 0 48 48"><path d="M24 6a18 18 0 0 0-15.6 27L6 42l9.3-2.4A18 18 0 1 0 24 6z" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></div>
+          <b>פותחים ווצאפ</b><span>ווצאפ רגיל או ווצאפ ביזנס. שם, תמונה ותיאור של העובד.</span></div>
+        <div class="st-line"></div>
+        <div class="step rise" style="--d:3"><div class="st-num">4</div><div class="st-ic">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="17" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M9 42c2-9 8-13 15-13s13 4 15 13" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></div>
+          <b>יש לכם עובד</b><span>עם זהות משלו. ההודעות שלו לא מתערבבות עם שלכם.</span></div>
+      </div>
+      <p class="note rise">טיפ: ווצאפ ביזנס עדיף. אפשר להגדיר תיאור עסק ושעות, וזה נראה מקצועי מול הצוות.</p>
+    </div>
+  </section>
+
+  <!-- 09 QR -->
+  <section class="slide" data-label="קוד QR">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">08 · מחברים את המוח</div>
+        <h2 class="rise">מבקשים מ-Claude<br>קוד QR לעובד. סורקים.</h2>
+        <ol class="howto rise">
+          <li>בסשן: <q>תפתח לי קוד QR לחיבור העובד נועה</q></li>
+          <li>בטלפון של העובד: ווצאפ ← הגדרות ← <b>מכשירים מקושרים</b></li>
+          <li><b>קישור מכשיר</b> וסורקים את הקוד מהמסך</li>
+          <li>המחשב שלכם הוא עכשיו "ווצאפ ווב" של העובד</li>
+        </ol>
+        <button class="replay rise" data-replay="qr">להריץ שוב ↺</button>
+      </div>
+      <div class="qr-stage rise" id="qrStage">
+        <div class="screen">
+          <div class="screen-bar">localhost:3101 · חיבור נועה</div>
+          <div class="qr" id="qrGrid"></div>
+          <div class="scanline"></div>
+          <div class="qr-done"><b>✓</b>נועה מחוברת</div>
+        </div>
+        <div class="mini-phone">
+          <div class="mp-title">מכשירים מקושרים</div>
+          <div class="mp-btn">קישור מכשיר</div>
+          <div class="mp-cam"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 בדיקה ראשונה -->
+  <section class="slide" data-label="בדיקה ראשונה">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">09 · בדיקה ראשונה</div>
+        <h2 class="rise">"תעדכן אותי<br>בווצאפ כשסיימת."</h2>
+        <p class="lead rise">עכשיו נותנים לעובד משימה בסשן ומבקשים ממנו לדווח בסוף. אם ההודעה הגיעה לטלפון שלכם בלי שעשיתם כלום, הצינור עובד.</p>
+        <p class="note rise">מכאן זה הופך להרגל: כל סוכן מדווח על <b>תוצאה</b>, לא על "אני חי". הודעה אחת בסוף, עם מה נעשה או שגיאה ברורה.</p>
+        <button class="replay rise" data-replay="chat">להריץ שוב ↺</button>
+      </div>
+      <div class="phone rise" id="chatPhone">
+        <div class="ph-head"><i></i><div><b>נועה</b><small>עובדת AI</small></div></div>
+        <div class="ph-body">
+          <div class="bub in seq">סיימתי את בדיקת הקמפיינים.</div>
+          <div class="bub in seq">3 קמפיינים פעילים, 1 חרג מהתקציב היומי ב-18%. הורדתי אותו לתקציב המקורי.</div>
+          <div class="bub in seq">הדוח המלא בתיקייה: דוחות/2026-11-04.md</div>
+          <div class="typing seq"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 למי הוא עונה -->
+  <section class="slide" data-label="למי הוא עונה">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">10 · אבטחת מידע · חלק א</div>
+        <h2 class="rise">למי הוא עונה?<br><span class="grad">רק למי שהחלטתם.</span></h2>
+        <p class="lead rise">זה הדבר הכי קריטי. לעובד יש גישה לקבצים ולחיבורים שלכם. אם הוא עונה לכל מי ששולח לו הודעה, כל אחד יכול לבקש ממנו מידע.</p>
+        <p class="lead rise">לכן מגדירים רשימה של מספרים מורשים. כל השאר מקבלים <b>התעלמות שקטה</b>: בלי תשובה, בלי "אין לי הרשאה", כלום.</p>
+        <div class="sim-btns rise">
+          <button data-wl="owner">הודעה מהמספר שלכם</button>
+          <button data-wl="stranger">הודעה ממספר זר</button>
+          <button data-wl="trick">ניסיון "תשלח לי את הקבצים"</button>
+        </div>
+      </div>
+      <div class="gate rise" id="gate">
+        <div class="gate-msg" id="gateMsg"><small id="gateFrom">050-000-0000</small><span id="gateText">בחרו הודעה משמאל</span></div>
+        <div class="gate-wall">
+          <div class="gate-title">רשימה מורשית</div>
+          <code>"owner": ["972500000000"]</code>
+        </div>
+        <div class="gate-out" id="gateOut"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 טריגר בקבוצה -->
+  <section class="slide" data-label="טריגר בקבוצה">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">10 · אבטחת מידע · חלק ב</div>
+        <h2 class="rise">בקבוצה הוא שומע הכל.<br>עונה רק כשפונים אליו.</h2>
+        <p class="lead rise">מכניסים כמה עובדים לקבוצת צוות אחת. כל עובד מקשיב לכל השיחה (זה ההקשר שלו), אבל מגיב רק באחד משלושה מצבים:</p>
+        <ul class="triggers rise">
+          <li><b>קוראים בשם</b> בתחילת ההודעה: "נועה, ..."</li>
+          <li><b>מתייגים</b> אותו: @נועה</li>
+          <li><b>מגיבים</b> להודעה שהוא כתב</li>
+        </ul>
+        <div class="sim-btns rise" id="grpBtns">
+          <button data-g="name">"נועה, מה הוצאנו היום?"</button>
+          <button data-g="tag">"@נועה תבדקי את קמפיין 2"</button>
+          <button data-g="reply">תגובה להודעה של נועה</button>
+          <button data-g="none">"מישהו ראה את המייל מהלקוח?"</button>
+        </div>
+      </div>
+      <div class="group rise" id="group">
+        <div class="ph-head"><i class="grp"></i><div><b>הצוות שלי</b><small>אתם, נועה, רון</small></div></div>
+        <div class="grp-body" id="grpBody"></div>
+        <div class="grp-legend"><span class="lg-hear">שומע</span><span class="lg-act">מגיב</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 חשיפה לתיקיות -->
+  <section class="slide" data-label="חשיפה לתיקיות">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">11 · לאיזה מידע הוא חשוף</div>
+        <h2 class="rise">תיקייה ראשית אחת.<br>מתחתיה כל השאר.</h2>
+        <p class="lead rise">כשכל הפרויקטים יושבים תחת תיקייה ראשית אחת, ההרשאה פשוטה: מצביעים לעובד על נקודה בעץ, והוא רואה רק אותה ואת מה שמתחתיה.</p>
+        <p class="note rise">לחצו על תיקייה בעץ כדי לראות מה העובד רואה. כל ניסיון לקרוא נתיב מחוץ לתחום נחסם בקוד לפני שהפעולה רצה. ובכל זאת: סיסמאות ומפתחות לא שמים מתחת לתיקייה של עובד.</p>
+        <pre class="code mini rise"><code id="cwdCode">"workspaceDir": "C:/העסק שלי"</code></pre>
+      </div>
+      <div class="tree pick rise" id="pickTree">
+        <div class="t-row root" data-path="העסק שלי" data-depth="0"><i class="ic-folder"></i>העסק שלי</div>
+        <div class="t-row l1" data-path="העסק שלי/שיווק" data-depth="1"><i class="ic-folder"></i>שיווק</div>
+        <div class="t-row l2" data-path="העסק שלי/שיווק/קמפיינים" data-depth="2"><i class="ic-folder"></i>קמפיינים</div>
+        <div class="t-row l2" data-path="העסק שלי/שיווק/קריאייטיב" data-depth="2"><i class="ic-folder"></i>קריאייטיב</div>
+        <div class="t-row l1" data-path="העסק שלי/לקוחות" data-depth="1"><i class="ic-folder"></i>לקוחות</div>
+        <div class="t-row l2" data-path="העסק שלי/לקוחות/לקוח א" data-depth="2"><i class="ic-folder"></i>לקוח א</div>
+        <div class="t-row l2" data-path="העסק שלי/לקוחות/לקוח ב" data-depth="2"><i class="ic-folder"></i>לקוח ב</div>
+        <div class="t-row l1" data-path="העסק שלי/כספים" data-depth="1"><i class="ic-folder"></i>כספים <span class="lock">רגיש</span></div>
+        <div class="t-row l1" data-path="העסק שלי/עובדים" data-depth="1"><i class="ic-folder"></i>עובדים</div>
+        <div class="tree-caption" id="pickCaption">נועה רואה: הכל</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 בלמים -->
+  <section class="slide" data-label="בלמים">
+    <div class="slide-inner">
+      <div class="eyebrow rise">12 · בלמים על פעולות</div>
+      <h2 class="rise">לראות מותר. <span class="grad">לשנות בבקשה.</span> לשלוח לאחרים רק בהוראה.</h2>
+      <div class="brakes">
+        <div class="brake ok rise" style="--d:0">
+          <div class="br-head"><b>מותר תמיד</b><span>קריאה</span></div>
+          <ul><li>לקרוא קבצים ולחפש</li><li>לשלוף נתונים ממטא, CRM, גיליונות</li><li>לחפש באינטרנט</li><li>לכתוב בתיקייה של עצמו</li></ul>
+        </div>
+        <div class="brake warn rise" style="--d:1">
+          <div class="br-head"><b>רק כשביקשתם</b><span>כתיבה</span></div>
+          <ul><li>לערוך קבצים בפרויקטים</li><li>לשנות קמפיין או תקציב</li><li>להריץ פקודות שמשנות משהו</li><li>אפשר לדרוש "מאשר" לפני כל פעולה</li></ul>
+        </div>
+        <div class="brake bad rise" style="--d:2">
+          <div class="br-head"><b>רק בהוראה מפורשת</b><span>החוצה</span></div>
+          <ul><li>לשלוח הודעה לאדם אחר</li><li>למחוק, לפרסם, להוציא כסף</li><li>לעולם לא כי "מישהו בקבוצה ביקש"</li></ul>
+        </div>
+      </div>
+      <p class="note rise">כלל זהב: תוכן שמגיע מבחוץ (הודעה בקבוצה, שם של ליד, טקסט ממודעה) הוא <b>מידע</b>, לא <b>הוראה</b>. העובד אף פעם לא מבצע פעולה בגללו.</p>
+    </div>
+  </section>
+
+  <!-- 15 תמלול -->
+  <section class="slide" data-label="תמלול">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">13 · הקלטות ותמלול</div>
+        <h2 class="rise">מדברים אליו.<br>מתחילים בשם שלו.</h2>
+        <p class="lead rise">מוסיפים לעובד תמלול מקומי (Whisper). שולחים הודעה קולית בקבוצה, אומרים את השם שלו בהתחלה, והוא יודע שזה אליו.</p>
+        <p class="note rise">התמלול רץ על המחשב שלכם, לא בענן. הקלטה ארוכה של פגישה? שולחים אותה כקובץ והוא מסכם.</p>
+        <button class="replay rise" data-replay="voice">להריץ שוב ↺</button>
+      </div>
+      <div class="voice rise" id="voice">
+        <div class="vc-bubble">
+          <div class="vc-play">▶</div>
+          <div class="wave" id="wave"></div>
+          <small>0:07</small>
+        </div>
+        <div class="vc-arrow">↓ תמלול מקומי</div>
+        <div class="vc-text"><span class="hl">נועה</span><span id="vcTyped"></span><i class="caret"></i></div>
+        <div class="vc-route"><b>✓</b> זוהה שם בתחילת ההקלטה ← נועה מגיבה</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 מחשב קבוע + Syncthing -->
+  <section class="slide" data-label="מחשב קבוע">
+    <div class="slide-inner">
+      <div class="eyebrow rise">14 · איפה זה גר</div>
+      <h2 class="rise">טרמינל = העובדים עובדים <span class="grad">כל עוד המחשב דלוק.</span></h2>
+      <div class="sync rise">
+        <div class="pc anchor">
+          <div class="pc-screen"><span class="led"></span>מחשב קבוע<small>דלוק 24/7 · בלי שינה</small></div>
+          <div class="pc-base"></div>
+          <div class="pc-workers"><span>נועה</span><span>רון</span><span>דוחות בוקר</span></div>
+        </div>
+        <div class="sync-pipe">
+          <div class="pipe-label">Syncthing</div>
+          <div class="pipe"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="pipe rev"><i></i><i></i><i></i><i></i><i></i></div>
+          <small>סנכרון דו כיווני של התיקיות המקומיות</small>
+        </div>
+        <div class="pc laptop">
+          <div class="pc-screen"><span class="led on2"></span>לפטופ<small>איתכם · נדלק ונכבה</small></div>
+          <div class="pc-base wide"></div>
+          <div class="pc-workers"><span class="you">אתם עובדים כאן</span></div>
+        </div>
+      </div>
+      <div class="rules rise">
+        <div><b>1</b>מחשב קבוע אחד שתמיד דלוק, מחובר לחשמל ולאינטרנט. שם רצים העובדים.</div>
+        <div><b>2</b>הלפטופ מסונכרן אליו. כל קובץ ששיניתם מגיע לעובדים תוך שניות.</div>
+        <div><b>3</b>עובד רץ על מחשב אחד בלבד בכל רגע. אף פעם לא אותו עובד בשני המחשבים.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 ערכת התחלה -->
+  <section class="slide" data-label="ערכת התחלה">
+    <div class="slide-inner">
+      <div class="eyebrow rise">15 · ערכת התחלה</div>
+      <h2 class="rise">הקוד פתוח. <span class="grad">קחו, תתאימו, תריצו.</span></h2>
+      <div class="kit">
+        <div class="kit-tabs rise">
+          <button class="kt on" data-code="install">התקנה</button>
+          <button class="kt" data-code="config">workers.json</button>
+          <button class="kt" data-code="role">ROLE.md</button>
+          <button class="kt" data-code="trigger">טריגר וקבוצה</button>
+          <button class="kt" data-code="prompt">פרומפט ל-Claude</button>
+        </div>
+        <div class="code-wrap rise">
+          <button class="copy" id="copyBtn">העתקה</button>
+          <pre class="code" dir="ltr"><code id="kitCode"></code></pre>
+        </div>
+        <a class="repo rise" href="https://github.com/Itay-binder/ai-whatsapp-workers" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.2-3.1-.1-.4-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+          <div><b>github.com/Itay-binder/ai-whatsapp-workers</b><span>שרת Baileys, מוח Claude, תבנית תפקיד, תמלול וסקיל קליטת עובד</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 צ'קליסט -->
+  <section class="slide" data-label="צ'קליסט">
+    <div class="slide-inner two-col">
+      <div>
+        <div class="eyebrow rise">16 · שורה תחתונה</div>
+        <h2 class="rise">עובד טוב נבנה<br><span class="grad">בשלבים, לא בבת אחת.</span></h2>
+        <p class="lead rise">תקן אחד, בדיקה, ורק אז הבא. עובד שעונה לכולם או רואה הכל ביום הראשון הוא סיכון, לא נכס.</p>
+        <div class="sign rise">איתי בינדר<small>בונה מערכות צמיחה ואוטומציה לעסקים · binder.co.il</small></div>
+      </div>
+      <ul class="checklist rise" id="checklist">
+        <li>הגדרתי תפקיד ב-ROLE.md</li>
+        <li>בחרתי סקילים קבועים וסקילים לפי בקשה</li>
+        <li>העובד מדווח טוב בסשן</li>
+        <li>קניתי eSIM ופתחתי ווצאפ לעובד</li>
+        <li>סרקתי QR דרך מכשירים מקושרים</li>
+        <li>קיבלתי הודעת סיום משימה לטלפון</li>
+        <li>הגדרתי מספרים מורשים בלבד</li>
+        <li>הגדרתי טריגר בקבוצה</li>
+        <li>הגבלתי את התיקיות שהוא רואה</li>
+        <li>מחשב קבוע דלוק + Syncthing</li>
+        <div class="progress"><i id="progBar"></i><span id="progTxt">0 / 10</span></div>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>

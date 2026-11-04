@@ -1,0 +1,26 @@
+# חיבורי ווצאפ (מפתחות הצפנה של המספרים!) — לעולם לא להעלות
+auth/
+server/auth/
+
+# הגדרות אישיות: מספרים, קבוצה, שמות
+workers.json
+server/workers.json
+
+# מצב ריצה, יומנים והקלטות
+state/
+workers/*/state/
+media/
+running-on.txt
+*.log
+server.log
+
+# תלויות
+node_modules/
+
+# תמונות פרופיל אמיתיות
+server/assets/
+
+# מערכת
+.DS_Store
+Thumbs.db
+*.sync-conflict-*

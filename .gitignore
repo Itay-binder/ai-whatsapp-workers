@@ -1,0 +1,8 @@
+node_modules/
+.vercel/
+*.log
+auth/
+state/
+media/
+workers.json
+running-on.txt
