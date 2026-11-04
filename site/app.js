@@ -166,7 +166,7 @@
     const name = p.split('/').pop();
     const n = prow.filter(r => r.classList.contains('on')).length;
     $('#pickCaption').textContent = p === 'העסק שלי' ? 'נועה רואה: הכל, כולל כספים' : `נועה רואה: ${name} ומה שמתחתיו (${n} תיקיות). השאר לא קיים מבחינתה.`;
-    $('#cwdCode').textContent = `"workspaceDir": "C:/${p}"`;
+    $('#cwdCode').innerHTML = `"workspaceDir": "C:/${p.split('/').map(x => `<bdi>${esc(x)}</bdi>`).join('/')}"`;
   }
   prow.forEach(r => r.onclick = () => pick(r));
   onEnter[idx('חשיפה לתיקיות')] = () => {
