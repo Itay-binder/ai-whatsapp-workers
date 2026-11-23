@@ -1,106 +1,38 @@
-// המוח של עובד: סשן Claude רציף (Agent SDK, streaming input) + בלם על פעולות כתיבה.
+// מנוע המוח Claude: סשן Claude רציף (Agent SDK, streaming input) + hook שמפעיל את מדיניות ההרשאות (policy.js).
 // סשן אחד ליום לכל עובד (נשמר ב-state/session.json), נפתח מחדש אוטומטית ביום חדש או על "שיחה חדשה".
+// הממשק שהשרת מצפה לו מכל מנוע מתועד ב-brains.js.
 import { query } from '@anthropic-ai/claude-agent-sdk'
 import fs from 'fs'
 import path from 'path'
+import { classify, outOfScope, bringsForeignContent, dangerousUnderTaint, redact } from './policy.js'
 
-const norm = p => path.resolve(String(p || '')).replace(/\\/g, '/').toLowerCase()
+// תאימות לאחור: מי שייבא את הפונקציות האלה מ-brain.js
+export { classify, outOfScope } from './policy.js'
 
-// ---------- מדיניות הרשאות ----------
-// allow = מבצע לבד. deny = חסום תמיד. approve = שולח לבעלים "אישור נדרש" ומחכה ל"מאשר"/"לא".
-const ALWAYS_OK = new Set(['Read', 'Glob', 'Grep', 'WebSearch', 'WebFetch', 'TodoWrite', 'ToolSearch', 'Skill', 'ListMcpResourcesTool', 'ReadMcpResourceTool', 'ReadMcpResourceDirTool'])
-const NEVER = new Set(['Agent', 'Task', 'RemoteTrigger', 'CronCreate', 'CronDelete', 'ScheduleWakeup', 'SendUserFile', 'PushNotification', 'SendMessage', 'SendToProject', 'SendToProjectContext', 'Workflow', 'EnterWorktree', 'ExitWorktree'])
-const FORBIDDEN_WORDS = /(send|delete|trash|remove|publish|forward|reply|buy|purchase|transfer|spam|unsubscribe|place_order|cancel|share)/i
-const READ_WORDS = /(^|[_-])(get|list|search|query|fetch|read|validate|health|estimate|compare|export|preview|count|aggregate|check|describe|find|insights|stats|performance|info|whoami|usage)([_-]|$)/i
-const SAFE_CMDS = new Set(['ls', 'cat', 'head', 'tail', 'grep', 'wc', 'date', 'pwd', 'echo', 'find', 'sort', 'uniq', 'cut', 'jq', 'cd'])
-// פקודות שנראות כמו שליחת הודעות/מיילים בערוצים חיצוניים. חסומות במצב רגיל. שימו לב: במצב bypass הכל מותר ורק נרשם ב-approvals.log.
-const MESSAGING = /(sendmessage|send-message|wa\.me|api\.whatsapp|graph\.facebook\.com\/[^\s]*\/messages|smtp|sendgrid|mailgun|twilio)/i
-
-function bashIsSafe(cmd, preApproved) {
-  if (MESSAGING.test(cmd)) return 'never'
-  // פקודות שאושרו מראש ב-workers.json (preApprovedCommands: מערך של regex), למשל סקריפט דוח במצב בדיקה
-  if (preApproved.some(re => re.test(cmd.trim()))) return true
-  if (/[>`]|\$\(/.test(cmd)) return false
-  if (/\s-(exec|execdir|delete|ok|fprint)\b|method=(post|delete)|\s-X\b/i.test(cmd)) return false
-  for (const seg of cmd.split(/&&|\|\||;|\|/)) {
-    const words = seg.trim().split(/\s+/)
-    const first = words[0]
-    if (!first) continue
-    if (first === 'curl') {
-      if (/\s(-X|--request|-d|--data|--data-binary|--data-raw|-F|--form|-T|--upload-file|-o|--output)\b/.test(' ' + seg)) return false
-      continue
-    }
-    if (!SAFE_CMDS.has(first)) return false
-  }
-  return true
-}
-
-// ---------- תחום תיקיות ----------
-// העובד רואה רק את workspaceDir (cwd), את התיקייה של עצמו ואת allowedDirs.
-// כל נתיב מחוץ להם נחסם, גם בקריאה וגם במצב bypass. זו שכבת הגנה, לא כספת:
-// מידע רגיש באמת לא שמים מתחת לתיקייה שהעובד רואה.
-const inside = (fp, roots) => roots.some(r => fp === norm(r) || fp.startsWith(norm(r) + '/'))
-const SHELL_PATHS = /(?:(?<![A-Za-z])[A-Za-z]:[\/](?![\/])[^\s"'|;&<>]*|(?:^|[\s"'=])(?:\.\.[\/]?)+[^\s"'|;&<>]*|(?:^|[\s"'=])\/(?:[a-z]|users|home|etc|root|mnt|var|opt|tmp)(?=[\/\s"']|$)[^\s"'|;&<>]*)/gi
-export function outOfScope(tool, input, cwd, roots) {
-  const res = p => norm(path.resolve(cwd, String(p).trim().replace(/^["'=\s]+/, '')))
-  const paths = []
-  if (['Read', 'Write', 'Edit', 'NotebookEdit'].includes(tool)) paths.push(input?.file_path || input?.notebook_path)
-  if (['Glob', 'Grep'].includes(tool)) { if (input?.path) paths.push(input.path); if (/^([A-Za-z]:|[\/]|~)/.test(input?.pattern || '')) paths.push(input.pattern.replace(/[*?{[].*$/, '') || '/') }
-  if (tool === 'Bash' || tool === 'PowerShell') {
-    const cmd = String(input?.command || '')
-    if (/(\$HOME|%USERPROFILE%|\$env:|(^|\s)~)/i.test(cmd)) return 'נתיב שמחוץ לתיקיות המותרות'
-    for (const m of cmd.match(SHELL_PATHS) || []) {
-      let t = m.trim().replace(/^["'=]/, '')
-      if (/^\/[a-z]([\/]|$)/i.test(t)) t = t.replace(/^\/([a-z])/i, '$1:')   // Git Bash: /c/... = C:/...
-      paths.push(t)
-    }
-  }
-  for (const p of paths.filter(Boolean)) if (!inside(res(p), roots)) return `הנתיב ${p} מחוץ לתיקיות שהעובד רשאי לראות`
-  return null
-}
-
-// מחזיר ['allow'] | ['deny', סיבה] | ['approve']
-export function classify(tool, input, workerDir, { allowedDirs = [], preApproved = [], label = 'העובד' } = {}) {
-  if (ALWAYS_OK.has(tool)) return ['allow']
-  if (NEVER.has(tool)) return ['deny', `הכלי הזה לא זמין ל${label}`]
-  if (['Write', 'Edit', 'NotebookEdit'].includes(tool)) {
-    const fp = norm(input?.file_path || input?.notebook_path)
-    // כתיבה בתיקייה של העובד עצמו (זיכרון, state) או בתיקיות שהוגדרו ב-allowedDirs = מותרת
-    if ([workerDir, ...allowedDirs].some(d => fp.startsWith(norm(d) + '/'))) return ['allow']
-    return ['approve']
-  }
-  if (tool === 'Bash') {
-    const s = bashIsSafe(String(input?.command || ''), preApproved)
-    if (s === 'never') return ['deny', `אסור ל${label} לשלוח הודעות לאחרים בדרך הזאת. לשלוח רק דרך /send של השרת`]
-    return s ? ['allow'] : ['approve']
-  }
-  if (tool === 'PowerShell') return ['approve']
-  if (tool.startsWith('mcp__')) {
-    const short = tool.split('__').slice(2).join('__')
-    if (FORBIDDEN_WORDS.test(short)) return ['deny', `פעולה אסורה ל${label} (שליחה/מחיקה/פרסום/כסף)`]
-    if (READ_WORDS.test(short)) return ['allow']
-    return ['approve']
-  }
-  return ['approve']
-}
-
-// ---------- המוח ----------
 export function createBrain({
   cwd, workerDir, allowedDirs = [], rolePrompt, onReply, onTyping, onApproval, log,
-  ownerName = 'הבעלים', workerLabel = 'העובד', timezone = 'Asia/Jerusalem', preApproved = [], bypass = false,
+  ownerName = 'הבעלים', workerLabel = 'העובד', timezone = 'Asia/Jerusalem', preApproved = [],
+  mode = 'approve',           // 'approve' | 'trusted'
+  enforceScope = mode !== 'trusted',
+  port = 3100, ownerIds = [], countryCode = '972', mediaDir = null,
 }) {
   const stateDir = path.join(workerDir, 'state')
   fs.mkdirSync(stateDir, { recursive: true })
   const sessFile = path.join(stateDir, 'session.json')
   const approvalsLog = path.join(stateDir, 'approvals.log')
+  const audit = line => fs.appendFileSync(approvalsLog, `${new Date().toISOString()} ${redact(line).replace(/\n/g, ' ')}\n`)
   const today = () => new Date().toLocaleDateString('en-CA', { timeZone: timezone })
   const pre = preApproved.map(s => new RegExp(s))
-  const policy = { allowedDirs, preApproved: pre, label: workerLabel }
+  const policy = { allowedDirs, preApproved: pre, label: workerLabel, port }
+  const taintCtx = { port, ownerIds, countryCode, cwd }
   const roots = [cwd, workerDir, ...allowedDirs]
+  const trusted = mode === 'trusted'
 
   let inbox = [], wake = null, closed = false
   let targets = []         // לאן לשלוח כל תשובה, לפי הסדר
   let current = null       // הצ'אט של התור הנוכחי
+  let tainted = false      // תוכן שלא הגיע מהבעלים נמצא בהקשר של התור הנוכחי
+  let taints = []          // מקביל ל-targets: האם ההודעה של כל תור כללה תוכן זר
   let session = fs.existsSync(sessFile) ? JSON.parse(fs.readFileSync(sessFile, 'utf8')) : {}
   let running = null, gen = 0
 
@@ -109,30 +41,44 @@ export function createBrain({
   async function* input(myGen) {
     while (myGen === gen) {
       if (!inbox.length) { await new Promise(r => (wake = r)); continue }
-      const { text, chat } = inbox.shift()
-      targets.push(chat)
+      const { text, chat, taint } = inbox.shift()
+      if (taint) tainted = true
+      targets.push(chat); taints.push(!!taint)
       yield { type: 'user', message: { role: 'user', content: text }, parent_tool_use_id: null, session_id: session.id || '' }
     }
   }
 
   async function preToolUse(hookInput) {
     const tool = hookInput.tool_name, inp = hookInput.tool_input
-    const [decision, reason] = classify(tool, inp, workerDir, policy)
     const out = (d, r) => ({ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: d, permissionDecisionReason: r } })
-    // תחום התיקיות נאכף תמיד, לפני הכל, גם במצב bypass
-    const scope = outOfScope(tool, inp, cwd, roots)
-    if (scope) { log(`חסום (תחום): ${tool}`); return out('deny', scope + '. לעבוד רק בתוך התיקיות המותרות.') }
-    if (bypass) {
-      // מצב bypass: בלי אישורים. כל פעולה שאינה קריאה נרשמת ביומן approvals.log.
-      if (decision !== 'allow') fs.appendFileSync(approvalsLog, `${new Date().toISOString()} בוצע בלי אישור: ${tool} ${JSON.stringify(inp).slice(0, 500)}\n`)
-      return out('allow', 'מצב bypass')
+
+    // 1. תוכן זר: הכלי הזה מכניס תוכן מבחוץ = מכאן ועד סוף התור, חוסמים מחיקה, סודות ושליחה לאחרים
+    if (bringsForeignContent(tool, inp, { mediaDir })) tainted = true
+    if (tainted) {
+      const bad = dangerousUnderTaint(tool, inp, taintCtx)
+      if (bad) { log(`חסום (תוכן זר בהקשר): ${tool}`); audit(`חסום, תוכן זר בהקשר: ${tool} ${JSON.stringify(inp).slice(0, 300)}`); return out('deny', bad) }
     }
+
+    // 2. תחום תיקיות (אם הוגדר)
+    if (enforceScope) {
+      const scope = outOfScope(tool, inp, cwd, roots)
+      if (scope) { log(`חסום (תחום): ${tool}`); return out('deny', scope + '. לעבוד רק בתוך התיקיות המותרות.') }
+    }
+
+    const [decision, reason] = classify(tool, inp, workerDir, policy)
+
+    // 3. מצב trusted: הכל מותר בלי לשאול. כל פעולה שאינה קריאה נרשמת ביומן.
+    if (trusted) {
+      if (decision !== 'allow') audit(`בוצע (trusted): ${tool} ${JSON.stringify(inp).slice(0, 500)}`)
+      return out('allow', 'מצב trusted: הבעלים סומך על העובד')
+    }
+
+    // 4. מצב approve
     if (decision === 'allow') return out('allow', 'מותר')
     if (decision === 'deny') { log(`חסום: ${tool}`); return out('deny', reason) }
-    const desc = `${tool}\n${JSON.stringify(inp).slice(0, 700)}`
-    fs.appendFileSync(approvalsLog, `${new Date().toISOString()} בקשה: ${desc.replace(/\n/g, ' ')}\n`)
+    audit(`בקשה: ${tool} ${JSON.stringify(inp).slice(0, 700)}`)
     const ok = await onApproval(current || targets[0], tool, inp)
-    fs.appendFileSync(approvalsLog, `${new Date().toISOString()} ${ok ? 'אושר' : 'נדחה'}: ${tool}\n`)
+    audit(`${ok ? 'אושר' : 'נדחה'}: ${tool}`)
     return ok ? out('allow', `${ownerName} אישר/ה`) : out('deny', `${ownerName} לא אישר/ה את הפעולה. אל תנסה שוב בדרך אחרת. לשאול מה עדיף.`)
   }
 
@@ -144,19 +90,21 @@ export function createBrain({
       additionalDirectories: [workerDir, ...allowedDirs],
       settingSources: ['user', 'project', 'local'],
       systemPrompt: { type: 'preset', preset: 'claude_code', append: rolePrompt },
+      // תמיד 'default' + hook. לא bypassPermissions: במצב הזה המודל נוטה להתווכח ולסרב בעצמו.
       permissionMode: 'default',
       hooks: { PreToolUse: [{ hooks: [preToolUse], timeout: 900 }] },
       stderr: d => { if (/error/i.test(d)) log('stderr: ' + d.slice(0, 300)) },
     }
     if (session.id) opts.resume = session.id
-    log(`מוח עולה (${session.id ? 'ממשיך סשן ' + session.id.slice(0, 8) : 'סשן חדש'})`)
+    log(`מוח Claude עולה, מצב ${mode}${enforceScope ? ' + תחום תיקיות' : ''} (${session.id ? 'ממשיך סשן ' + session.id.slice(0, 8) : 'סשן חדש'})`)
     const typing = setInterval(() => { if (current) onTyping(current) }, 8000)
     try {
       for await (const m of query({ prompt: input(myGen), options: opts })) {
         if (m.session_id && m.session_id !== session.id) { session.id = m.session_id; saveSession() }
         if (m.type === 'assistant' && !current) { current = targets[0]; onTyping(current) }
         if (m.type === 'result') {
-          const chat = targets.shift(); current = null
+          const chat = targets.shift(); taints.shift(); current = null
+          tainted = taints.some(Boolean)   // התור הבא נקי, אלא אם גם הוא הגיע עם תוכן זר
           const text = m.subtype === 'success' ? (m.result || '').trim() : `נתקלתי בשגיאה (${m.subtype}). לנסות שוב או לנסח אחרת.`
           if (chat && text) await onReply(chat, text)
           if (targets.length) { current = targets[0]; onTyping(current) }
@@ -169,15 +117,17 @@ export function createBrain({
     }
     if (myGen !== gen || closed) return
     // נפל: להודיע על מה שלא נענה ולהקים מחדש
+    taints = []; tainted = false
     for (const chat of targets.splice(0)) await onReply(chat, 'נפלתי באמצע ההודעה הזאת. אני חוזר עכשיו, לשלוח אותה שוב.')
     current = null
     setTimeout(() => { running = run() }, 3000)
   }
 
   return {
-    ask(chat, text) {
+    // taint = true כשההודעה כוללת תוכן שלא כתב הבעלים (יומן קבוצה, קובץ או הקלטה מועברים)
+    ask(chat, text, taint = false) {
       if (session.date && session.date !== today() && !targets.length) this.reset('יום חדש')
-      inbox.push({ chat, text })
+      inbox.push({ chat, text, taint })
       if (!running) running = run()
       wake?.(); wake = null
     },

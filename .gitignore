@@ -6,3 +6,9 @@ state/
 media/
 workers.json
 running-on.txt
+
+# מערכות שהלקוח חיבר (סקילים פר-מערכת, בלי סודות אבל ספציפי ללקוח)
+starter/systems/
+# סודות, אם מישהו שם בטעות קובץ כזה בתוך הריפו
+secrets.json
+*.secret

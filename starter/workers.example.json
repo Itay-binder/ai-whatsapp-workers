@@ -18,6 +18,11 @@
   "mediaDir": "../media",
   "allowedDirs": [],
   "preApprovedCommands": [],
+  "engine": "claude",
+  "secrets": {
+    "backend": "os",
+    "file": "~/.ai-workers/secrets.json"
+  },
   "whisper": {
     "exe": "",
     "model": "",
@@ -31,6 +36,7 @@
       "about": "קמפיינים | החברה שלי",
       "photo": "assets/noa.png",
       "brain": true,
+      "mode": "approve",
       "joinGroup": false,
       "aliases": ["נועה", "נואה", "נוע"],
       "allowedDirs": []
@@ -42,7 +48,8 @@
       "photo": "assets/ron.png",
       "brain": true,
       "joinGroup": false,
-      "permissions": "bypass",
+      "mode": "trusted",
+      "enforceScope": false,
       "workspaceDir": "..",
       "aliases": ["רון", "רוני"],
       "pending": true
